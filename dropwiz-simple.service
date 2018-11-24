@@ -1,0 +1,12 @@
+[Unit]
+Description=Dropwiz Simple
+
+[Service]
+ExecStart=/bin/java -jar /opt/dans.knaw.nl/bin/dropwiz-simple-scala-1.0-SNAPSHOT.jar server /etc/opt/dans.knaw.nl/dropwiz-simple/app.yml
+SuccessExitStatus=143
+
+User=dropwiz
+Group=dropwiz
+
+[Install]
+WantedBy=multi-user.target
