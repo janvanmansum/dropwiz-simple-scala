@@ -35,3 +35,9 @@
         src: dropwiz-simple.service
         dest: /usr/lib/systemd/system/
 
+    - name: Start and enable service
+      service:
+        name: dropwiz-simple
+        state: started
+        enabled: yes
+        

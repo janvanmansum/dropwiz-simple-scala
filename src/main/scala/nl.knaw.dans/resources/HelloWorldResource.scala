@@ -4,6 +4,7 @@ import java.util.concurrent.atomic.AtomicLong
 import java.util.Optional
 
 import com.codahale.metrics.annotation.Timed
+import javax.annotation.security.RolesAllowed
 import javax.ws.rs.{ GET, Path, Produces, QueryParam }
 import javax.ws.rs.core.MediaType
 import nl.knaw.dans.api.Saying
@@ -13,6 +14,7 @@ import nl.knaw.dans.api.Saying
 class HelloWorldResource(val template: String, val defaultName: String) {
   private val counter: AtomicLong = new AtomicLong()
 
+  @RolesAllowed(Array("ADMIN"))
   @GET
   @Timed
   def sayHello(@QueryParam("name") name: Optional[String]): Saying = {
