@@ -6,6 +6,17 @@
       yum:
         name:
           - java-1.8.0-openjdk
+          - httpd
+
+    - name: Copy virtual host config
+      cp:
+        src: test.dans.kanw.nl.conf
+        dest: /etc/httpd/conf.d
+
+    - name: Copy self-signed key
+      cp:
+        src: "{{ item }}"
+        dest: /etc/ssl/certs/
 
     - name: Create dropwiz user
       user:
@@ -27,7 +38,7 @@
 
     - name: Copy config
       copy:
-        src: example.yml
+        src: app.yml
         dest: /etc/opt/dans.knaw.nl/dropwiz-simple/app.yml
 
     - name: Copy systemd unit
@@ -38,6 +49,5 @@
     - name: Start and enable service
       service:
         name: dropwiz-simple
-        state: started
+        state: restarted
         enabled: yes
-        

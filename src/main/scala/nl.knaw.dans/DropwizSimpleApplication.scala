@@ -22,7 +22,7 @@ object DropwizSimpleApplication extends Application[DropwizSimpleConfiguration] 
   }
 
   override def run(configuration: DropwizSimpleConfiguration, environment: Environment): Unit = {
-    val resource = new HelloWorldResource(configuration.template, configuration.defaultName)
+    val resource = new HelloWorldResource(configuration.template, configuration.defaultName, configuration.uploadDir)
     environment.jersey.register(
       new AuthDynamicFeature(
         new BasicCredentialAuthFilter.Builder[User]()
