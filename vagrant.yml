@@ -7,16 +7,25 @@
         name:
           - java-1.8.0-openjdk
           - httpd
+          - mod_ssl
 
     - name: Copy virtual host config
-      cp:
-        src: test.dans.kanw.nl.conf
+      copy:
+        src: test.dans.knaw.nl.conf
         dest: /etc/httpd/conf.d
 
     - name: Copy self-signed key
-      cp:
+      copy:
         src: "{{ item }}"
         dest: /etc/ssl/certs/
+      with_items:
+        - test.key
+        - test.crt
+
+    - name: Remove default ssl config
+      file:
+        name: /etc/httpd/conf.d/ssl.conf
+        state: absent
 
     - name: Create dropwiz user
       user:
@@ -51,3 +60,10 @@
         name: dropwiz-simple
         state: restarted
         enabled: yes
+
+    - name: Start and enable httpd
+      service:
+        name: httpd
+        state: restarted
+        enabled: yes
+
