@@ -14,13 +14,13 @@
         src: test.dans.knaw.nl.conf
         dest: /etc/httpd/conf.d
 
-    - name: Copy self-signed key
-      copy:
-        src: "{{ item }}"
-        dest: /etc/ssl/certs/
-      with_items:
-        - test.key
-        - test.crt
+    - name: create self-signed SSL cert
+      command: >-
+        openssl req -new -nodes -x509 -subj "/C=NL/ST=Zuid-Holland/L=Den Haag/O=DANS/CN=dans.knaw.nl"
+        -days 365 -keyout /etc/ssl/certs/test.key
+        -out /etc/ssl/certs/test.crt -extensions v3_ca
+      args:
+        creates: /etc/ssl/certs/test.crt
 
     - name: Remove default ssl config
       file:
